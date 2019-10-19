@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Room Status</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <style>
+        #overlay {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">
+                <h4><i class="fa fa-home"></i> Available Rooms</h4>
+            </div>
+            <div class="card-body">
+                <div class="row room_container">
+
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            let socket;
+            $(document).ready(evt => {
+                $.getJSON("/get/rooms", res => {
+                    let room_content = '';
+                    $.each(res, (key, val) => {
+                        room_content += ` <div class='col-lg-3 mb-3'>
+            <div class="card text-white bg-info room_card" data-room-id='${key}'>
+                <div class="card-header">
+                    <h4><i class="fa fa-home"></i> ${val.room_number}</h4>
+                </div>
+                <div class="card-body">
+                    <p class='card-text'>
+                        Room Status:<span class='room_status_span badge badge-pill badge-danger'>
+                            ${val.room_status}</span>
+                    </p>
+                </div>
+            </div>
+        </div>`;
+                    });
+                    $(".room_container").html(room_content);
+                    socket = io.connect('http://localhost');
+                    socket.on('room_status_update', function (data) {
+                        let {
+                            room_id,
+                            status
+                        } = data;
+                        let span = '';
+                        let room = $(`.room_container .room_card[data-room-id=${room_id}]`);
+                        switch (status) {
+                            case '1':
+                                //Dirty Status
+                                span =
+                                    `<p class='card-text'>
+                                            Room Status:<span class='room_status_span badge badge-pill badge-danger'>Dirty</span></p>`
+                                room.find('.card-body').html(span);
+                                break;
+                            case '2':
+                                //Cleaning in progress Status
+                                let spinner = `<div class="d-flex justify-content-center">
+                                                <div class="spinner-border" role="status">
+                                                </div>
+                                            </div><p class="text-center text-dark">Cleaning in progress</p>`;
+                                room.find('.card-body').html(spinner);
+                                break;
+                            case '3':
+                                //Clean Status
+                                span =
+                                    `<p class='card-text'>
+                                            Room Status:<span class='room_status_span badge badge-pill badge-success'>Clean</span></p>`
+                                room.find('.card-body').html(span);
+                                break;
+                        }
+                    });
+                });
+            });
+        </script>
+</body>
+
+</html>

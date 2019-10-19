@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Manage Rooms</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <style>
+        table#room_details_table th {
+            position: sticky;
+            top: -20px;
+        }
+
+        .table_container {
+            height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h4><i class="fa fa-home"></i> Manage Rooms</h4>
+            </div>
+            <div class="card-body table_container">
+                <div class="">
+                    <table id="room_details_table" class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th class='text-center' scope="col">#</th>
+                                <th class='text-center' scope="col">Room#</th>
+                                <th class='text-center' scope="col">Capacity</th>
+                                <th class='text-center' scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        let socket;
+        $(document).ready(evt => {
+            socket = io.connect('http://localhost');
+            $.getJSON("/get/rooms", res => {
+                let room_details_tr = '';
+                $.each(res, (key, val) => {
+                    let option = `<select class='room_status_selection form-control'>
+                                    <option value='1'>Dirty</option>
+                                    <option value='2'>Cleaning</option>
+                                    <option value='3'>Clean</option>
+                                </select>`;
+                    room_details_tr += `   <tr data-table-id='${key}'>
+                                            <td class='text-center' scope="row">${key}</td>
+                                            <td class='text-center'>${val.room_number}</td>
+                                            <td class='text-center'>${val.room_capacity}</td>
+                                            <td class='text-center'>${option}</td>
+                                        </tr>`;
+                });
+                $("#room_details_table tbody").html(room_details_tr);
+            });
+        });
+
+        $("#room_details_table").on('change', '.room_status_selection', function () {
+            let room_status_data = {
+                status: $(this).val(),
+                room_id: $(this).parents('tr').attr('data-table-id')
+            };
+            socket.emit('room_status_update', room_status_data);
+
+        });
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+
+</body>
+
+</html>
