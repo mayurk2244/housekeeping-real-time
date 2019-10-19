@@ -63,7 +63,7 @@
         </div>`;
                     });
                     $(".room_container").html(room_content);
-                    socket = io.connect('http://localhost');
+                    socket = io.connect('/');
                     socket.on('room_status_update', function (data) {
                         let {
                             room_id,

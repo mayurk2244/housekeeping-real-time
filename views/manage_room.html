@@ -55,7 +55,7 @@
     <script>
         let socket;
         $(document).ready(evt => {
-            socket = io.connect('http://localhost');
+            socket = io.connect('/');
             $.getJSON("/get/rooms", res => {
                 let room_details_tr = '';
                 $.each(res, (key, val) => {
