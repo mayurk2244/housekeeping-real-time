@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Manage Rooms</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <style>
         table#room_details_table th {
             position: sticky;
@@ -17,7 +15,7 @@
         }
 
         .table_container {
-            height: 300px;
+            height:calc(100vh - 100px);;
             overflow-y: scroll;
         }
     </style>
@@ -26,7 +24,7 @@
 <body>
     <div class="container mt-5">
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header text-center">
                 <h4><i class="fa fa-home"></i> Manage Rooms</h4>
             </div>
             <div class="card-body table_container">
@@ -50,8 +48,7 @@
 
 
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="jquery/dist/jquery.min.js"></script>
     <script>
         let socket;
         $(document).ready(evt => {

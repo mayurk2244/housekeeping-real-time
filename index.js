@@ -5,6 +5,8 @@ const fs = require("fs");
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 
+app.use(express.static(__dirname + '/node_modules'));
+
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
