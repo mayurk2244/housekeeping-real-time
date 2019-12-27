@@ -36,7 +36,7 @@
                 $.getJSON("/get/rooms", res => {
                     let room_content = '';
                     $.each(res, (key, val) => {
-                        room_content += ` <div class='col-lg-3 mb-3'>
+                        room_content += ` <div class='col-lg-3 mb-3 col-md-6 col-sm-6 col-xs-12'>
             <div class="card text-white bg-info room_card" data-room-id='${key}'>
                 <div class="card-header">
                     <h4><i class="fa fa-home"></i> ${val.room_number}</h4>
