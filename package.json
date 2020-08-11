@@ -4,25 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
   },
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/mayurk2244/real-time-room-status-management.git"
   },
-  "author": "",
+  "author": "Mayur Karmarkar",
   "license": "MIT",
   "bugs": {
     "url": "https://gitlab.com/mayurk2244/real-time-room-status-management/issues"
   },
   "homepage": "https://gitlab.com/mayurk2244/real-time-room-status-management#readme",
   "dependencies": {
+    "animate.css": "^4.1.0",
     "bootstrap": "^4.3.1",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
-    "nodemon": "^1.19.4",
+    "serve-favicon": "^2.5.0",
     "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

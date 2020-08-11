@@ -1,52 +1,42 @@
 {
     "1": {
         "room_number": "#100",
-        "room_status":"Dirty",
-        "room_capacity":"3"
+        "room_status": "Not Clean"
     },
     "2": {
         "room_number": "#101",
-        "room_status":"Dirty",
-        "room_capacity":"5"
+        "room_status": "Not Clean"
     },
     "3": {
         "room_number": "#102",
-        "room_status":"Dirty",
-        "room_capacity":"6"
+        "room_status": "Not Clean"
     },
     "4": {
         "room_number": "#103",
-        "room_status":"Dirty",
-        "room_capacity":"10"
+        "room_status": "Not Clean"
     },
     "5": {
         "room_number": "#104",
-        "room_status":"Dirty",
-        "room_capacity":"9"
+        "room_status": "Not Clean"
     },
     "6": {
         "room_number": "#105",
-        "room_status":"Dirty",
-        "room_capacity":"6"
+        "room_status": "Not Clean"
     },
     "7": {
         "room_number": "#106",
-        "room_status":"Dirty",
-        "room_capacity":"9"
+        "room_status": "Not Clean"
     },
     "8": {
         "room_number": "#107",
-        "room_status":"Dirty",
-        "room_capacity":"10"
+        "room_status": "Not Clean"
     },
     "9": {
         "room_number": "#108",
-        "room_status":"Dirty",
-        "room_capacity":"6"
+        "room_status": "Not Clean"
     },
     "10": {
         "room_number": "#109",
-        "room_status":"Dirty",
-        "room_capacity":"3"
+        "room_status": "Not Clean"
     }
 }

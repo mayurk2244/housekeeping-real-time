@@ -7,34 +7,61 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Manage Rooms</title>
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
     <style>
+        * {
+            font-family: 'Nunito', sans-serif;
+        }
+
         table#room_details_table th {
             position: sticky;
             top: -20px;
         }
 
+        table#room_details_table tbody tr td {
+            width: 50%;
+        }
+
+        .card {
+            box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+            height: calc(100vh - 100px);
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: #413e3e;
+        }
+
         .table_container {
-            height:calc(100vh - 100px);;
+            height: calc(100vh - 100px);
             overflow-y: scroll;
         }
     </style>
 </head>
 
 <body>
-    <div class="container mt-5">
+    <main class="container mt-4 col-lg-4 col-md-6 col-sm-8 ">
         <div class="card mb-3">
-            <div class="card-header text-center">
-                <h4><i class="fa fa-home"></i> Manage Rooms</h4>
+            <div class="card-header text-center text-white bg-dark">
+                <h4>👨‍💼 Manage Housekeeping</h4>
             </div>
             <div class="card-body table_container">
                 <div class="">
                     <table id="room_details_table" class="table table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th class='text-center' scope="col">#</th>
-                                <th class='text-center' scope="col">Room#</th>
-                                <th class='text-center' scope="col">Capacity</th>
+                                <th class='text-center' scope="col">Room</th>
                                 <th class='text-center' scope="col">Status</th>
                             </tr>
                         </thead>
@@ -45,9 +72,14 @@
                 </div>
             </div>
         </div>
-
-
-    </div>
+    </main>
+    <footer class="container ">
+        <nav class="nav justify-content-end">
+            <span class='badge badge-pill badge-dark text-white'>
+                <a href="/" target="_blank">click here</a> to for Housekeeping status
+            </span>
+        </nav>
+    </footer>
     <script src="jquery/dist/jquery.min.js"></script>
     <script>
         let socket;
@@ -57,14 +89,12 @@
                 let room_details_tr = '';
                 $.each(res, (key, val) => {
                     let option = `<select class='room_status_selection form-control'>
-                                    <option value='1'>Dirty</option>
+                                    <option value='1'>Not Clean</option>
                                     <option value='2'>Cleaning</option>
                                     <option value='3'>Clean</option>
                                 </select>`;
                     room_details_tr += `   <tr data-table-id='${key}'>
-                                            <td class='text-center' scope="row">${key}</td>
                                             <td class='text-center'>${val.room_number}</td>
-                                            <td class='text-center'>${val.room_capacity}</td>
                                             <td class='text-center'>${option}</td>
                                         </tr>`;
                 });
