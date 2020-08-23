@@ -7,8 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Housekeeping</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
-    <link href="animate.css/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="node_modules/animate.css/animate.min.css" rel="stylesheet">
     <style>
         * {
             font-family: 'Nunito', sans-serif;
@@ -17,7 +18,7 @@
         .main_container .main_card_body {
             box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
             height: calc(100vh - 150px);
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         .room_card {
@@ -39,17 +40,47 @@
             border-radius: 10px;
             background-color: #413e3e;
         }
+
+        .bucket-logo {
+            height: 40px;
+        }
     </style>
 </head>
 
 <body>
-    <main class="container main_container mt-4">
+    <main id="app" class="container main_container mt-4">
         <div class="card mb-3">
             <div class="card-header text-center bg-dark text-white">
-                <h4>🧹 Housekeeping</h4>
+                <h4>
+                    <img class="bucket-logo" src="img/housekeeping-bucket.svg" alt=""> Housekeeping</h4>
             </div>
             <div class="card-body main_card_body">
                 <div class="row room_container">
+                    <div v-for="room in rooms" class='col-lg-2 mb-2 col-md-4 col-sm-6 col-xs-6'>
+                        <div class="card room_card text-white bg-dark">
+                            <div class="card-header text-center">
+                                <h3><span class='room_status_span badge badge-pill badge-secondary text-left'>🏠
+                                        {{room.room_number_formatted}}  
+                                        <span>
+
+                                </h3>
+                                <h5 v-if="room.room_status=='D'" class='card-text'>
+                                    <span class='room_status_span badge badge-pill badge-danger'>
+                                        <i class="fas fa-times"></i> Not Clean</span>
+                                </h5>
+                                <h5 v-if="room.room_status=='P'" class='card-text'>
+                                    <span class='text-white badge badge-pill badge-info'>
+                                        <i class="fas fa-circle-notch fa-spin"></i> Cleaning
+                                    </span>
+                                </h5>
+                                <h5 v-if="room.room_status=='C'" class='card-text'>
+                                    <span class='room_status_span badge badge-pill badge-success'>
+                                        <i class="fas fa-check"></i> Clean
+                                    </span>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -63,67 +94,33 @@
         </nav>
     </footer>
 
-    <script src="jquery/dist/jquery.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="node_modules/vue/dist/vue.min.js"></script>
     <script>
         let socket;
-        $(document).ready(evt => {
-            $.getJSON("/get/rooms", res => {
-                let room_content = '';
-                $.each(res, (key, val) => {
-                    room_content += ` <div class='col-lg-3 mb-3 col-md-6 col-sm-6 col-xs-6'>
-            <div class="card room_card text-white bg-dark " data-room-id='${key}'>
-                <div class="card-header">
-                    <h4>🏠  <span class='room_status_span badge badge-pill badge-secondary'>${val.room_number} <span></h4>
-                </div>
-                <div class="card-body">
-                    <p class='card-text room-status'>
-                                📝 <span class='room_status_span badge badge-pill badge-danger'>
-                                    ${val.room_status}</span>
-                    </p>
-                </div>
-            </div>
-        </div>`;
-                });
-                $(".room_container").html(room_content);
+        const APP = new Vue({
+            el: "#app",
+            data: {
+                rooms: []
+            },
+            async mounted() {
+                await fetch("/get/rooms").then(res => res.json()).then(data => this.rooms = data);
                 socket = io.connect('/');
-                socket.on('room_status_update', function (data) {
+                socket.on('room_status_update', function (updated_data) {
                     let {
-                        room_id,
+                        room_number,
                         status
-                    } = data;
-                    let span = '';
-                    let room = $(`.room_container .room_card[data-room-id=${room_id}]`);
-                    switch (status) {
-                        case '1':
-                            //Not Clean Status
-                            span =
-                                `<p class='card-text'>
-                                            📝 <span class='room_status_span badge badge-pill badge-danger'>Not Clean</span></p>`
-                            room.find('.card-body .room-status').html(span);
-                            break;
-                        case '2':
-                            //Cleaning in progress Status
-                            let spinner = `</div>
-                                                <div class="text-center"> 
-                                                    <div class="animate__animated animate__wobble animate__infinite">🧽</div>
-                                                   
-                                                    <span class='text-white badge badge-pill badge-info'>
-                                                        Cleaning in progress...
-                                                    </span>
-                                                </div>`;
-                            room.find('.card-body .room-status').html(spinner);
-                            break;
-                        case '3':
-                            //Clean Status
-                            span =
-                                `<p class='card-text'>
-                                            📝 <span class='room_status_span badge badge-pill badge-success'>Clean</span></p>`
-                            room.find('.card-body .room-status').html(span);
-                            break;
-                    }
+                    } = updated_data;
+
+                    APP.rooms.forEach((data, index) => {
+                        if (data.room_number == room_number) {
+                            APP.rooms[index].room_status = status;
+                        }
+                    });
                 });
-            });
+            }
+
         });
     </script>
 </body>

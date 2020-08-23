@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Manage Housekeeping</title>
-    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
     <style>
         * {
@@ -51,10 +52,10 @@
 </head>
 
 <body>
-    <main class="container mt-4 col-lg-4 col-md-6 col-sm-8 ">
+    <main id="app" class="container mt-4 col-lg-4 col-md-6 col-sm-8 ">
         <div class="card mb-3">
             <div class="card-header text-center text-white bg-dark">
-                <h4>👨‍💼 Manage Housekeeping</h4>
+                <div> <i class="fas fa-user-cog"></i> Manage Housekeeping</div>
             </div>
             <div class="card-body table_container">
                 <div class="">
@@ -66,7 +67,17 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            <tr v-for="room in rooms">
+                                <td class='text-center'>{{room.room_number_formatted}}</td>
+                                <td class='text-center'>
+                                    <select :data-room-number="room.room_number" @change="setStatus"
+                                        :value="room.room_status" class='room_status_selection form-control'>
+                                        <option value='D'>Not Clean</option>
+                                        <option value='P'>Cleaning</option>
+                                        <option value='C'>Clean</option>
+                                    </select>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -80,39 +91,35 @@
             </span>
         </nav>
     </footer>
-    <script src="jquery/dist/jquery.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="node_modules/vue/dist/vue.min.js"></script>
     <script>
         let socket;
-        $(document).ready(evt => {
-            socket = io.connect('/');
-            $.getJSON("/get/rooms", res => {
-                let room_details_tr = '';
-                $.each(res, (key, val) => {
-                    let option = `<select class='room_status_selection form-control'>
-                                    <option value='1'>Not Clean</option>
-                                    <option value='2'>Cleaning</option>
-                                    <option value='3'>Clean</option>
-                                </select>`;
-                    room_details_tr += `   <tr data-table-id='${key}'>
-                                            <td class='text-center'>${val.room_number}</td>
-                                            <td class='text-center'>${option}</td>
-                                        </tr>`;
-                });
-                $("#room_details_table tbody").html(room_details_tr);
-            });
-        });
+        const APP = new Vue({
+            el: "#app",
+            data: {
+                rooms: []
+            },
+            methods: {
+                setStatus({
+                    target
+                }) {
+                    let room_number = target.getAttribute("data-room-number");
+                    let status = target.value;
+                    socket.emit('room_status_update', {
+                        room_number,
+                        status
+                    });
+                }
+            },
+            async mounted() {
+                await fetch("/get/rooms").then(res => res.json()).then(data => this.rooms = data);
+                socket = io.connect('/');
+            }
 
-        $("#room_details_table").on('change', '.room_status_selection', function () {
-            let room_status_data = {
-                status: $(this).val(),
-                room_id: $(this).parents('tr').attr('data-table-id')
-            };
-            socket.emit('room_status_update', room_status_data);
-
-        });
+        })
     </script>
-    <script src="/socket.io/socket.io.js"></script>
-
 </body>
 
 </html>
