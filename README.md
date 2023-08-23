@@ -7,26 +7,28 @@
 
 ## Demo
 
-<img src="./img/house-keeping-demo.gif"  height="200" />
+<video height="300" controls>
+  <source src="img/house-keeping.mp4" type="video/mp4">
+</video>
 
 ## Package Used
 
-[vue](https://vuejs.org/) |
-[express](https://expressjs.com/) |
-[socket.io](https://socket.io/) |
-[Bootstrap](https://getbootstrap.com/) |
-[MongoDB](https://www.mongodb.com/atlas/database) |
-[Mongoose](https://www.npmjs.com/package/mongoose)
+- [vue](https://vuejs.org/)
+- [express](https://expressjs.com/)
+- [socket.io](https://socket.io/)
+- [Bootstrap](https://getbootstrap.com/)
+- [MongoDB](https://www.mongodb.com/atlas/database)
+- [Mongoose](https://www.npmjs.com/package/mongoose)
 
 ## Deployment
 
-[Render](https://render.com/)
+- [Render](https://render.com/)
 
 ## Installation
 
-- Clone this repository
+- clone this repository
 - create .env file with CONNECTION_URL (refer to .example.env)
-- run
+- run following command
 
 ```bash
 npm install #install npm packages
