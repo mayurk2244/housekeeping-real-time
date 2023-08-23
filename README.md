@@ -9,7 +9,7 @@ real-time monitoring and management of housekeeping tasks, room cleaning operati
 
 ## Live Demo
 
-Check out the live demo video: [Real-Time Housekeeping Demo]((https://housekeeping-real-time.onrender.com/)
+Check out the live demo video: [Real-Time Housekeeping Demo](https://housekeeping-real-time.onrender.com/)
 
 https://github.com/mayurk2244/housekeeping-real-time/assets/32235323/2f8a3f8d-f5fa-4b24-bc95-7ef2e6bce821
 
