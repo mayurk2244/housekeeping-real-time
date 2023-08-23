@@ -1,5 +1,5 @@
 {
-  "name": "real-time-room-status-management",
+  "name": "housekeeping-real-time",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,14 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/mayurk2244/real-time-room-status-management.git"
+    "url": "https://github.com/mayurk2244/housekeeping-real-time"
   },
   "author": "Mayur Karmarkar",
   "license": "MIT",
-  "bugs": {
-    "url": "https://gitlab.com/mayurk2244/real-time-room-status-management/issues"
-  },
-  "homepage": "https://gitlab.com/mayurk2244/real-time-room-status-management#readme",
   "dependencies": {
     "animate.css": "^4.1.0",
     "bootstrap": "^4.3.1",
