@@ -1,35 +1,38 @@
-# Real Time Housekeeping
+# Real-Time Housekeeping Management
 
-- The Real-time application for monitoring & managing housekeeping task for room cleaning.
-- ## Demo Link
-- [Room Status](https://housekeeping-real-time.onrender.com/)
+real-time monitoring and management of housekeeping tasks, room cleaning operations.
+
+## Demo Links
+
+- [Room Status Dashboard](https://housekeeping-real-time.onrender.com/)
 - [Manage Room Status](https://housekeeping-real-time.onrender.com/manage-rooms)
 
-## Demo
+## Live Demo
+
+Check out the live demo video: [Real-Time Housekeeping Demo]((https://housekeeping-real-time.onrender.com/)
+
 https://github.com/mayurk2244/housekeeping-real-time/assets/32235323/2f8a3f8d-f5fa-4b24-bc95-7ef2e6bce821
 
+## Technologies Utilized
 
-
-## Package Used
-
-- [vue](https://vuejs.org/)
-- [express](https://expressjs.com/)
-- [socket.io](https://socket.io/)
-- [Bootstrap](https://getbootstrap.com/)
-- [MongoDB](https://www.mongodb.com/atlas/database)
-- [Mongoose](https://www.npmjs.com/package/mongoose)
+- [Vue.js](https://vuejs.org/) - A progressive JavaScript framework
+- [Express](https://expressjs.com/) - A fast, unopinionated web framework for Node.js
+- [Socket.io](https://socket.io/) - Real-time bidirectional event-based communication
+- [Bootstrap](https://getbootstrap.com/) - A popular CSS framework for responsive design
+- [MongoDB](https://www.mongodb.com/atlas/database) - A versatile NoSQL database
+- [Mongoose](https://www.npmjs.com/package/mongoose) - A MongoDB object modeling tool
 
 ## Deployment
 
-- [Render](https://render.com/)
+This project is deployed using [Render](https://render.com/).
 
 ## Installation
 
-- clone this repository
-- create .env file with CONNECTION_URL (refer to .example.env)
-- run following command
+1. Clone this repository.
+2. Create a `.env` file with the `CONNECTION_URL` (refer to `.example.env` for guidance).
+3. Run the following commands:
 
 ```bash
-npm install #install npm packages
-npm run start #start the application on port 8080
+npm install # Install npm packages
+npm run start # Start the application on port 8080
 ```
