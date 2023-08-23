@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node index"
   },
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/mayurk2244/real-time-room-status-management.git"
